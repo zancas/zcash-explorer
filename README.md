@@ -1,20 +1,55 @@
 # ZcashExplorer
 
-Web: https://zcashblockexplorer.com
+This is a fork of https://github.com/nighthawk-apps/zcash-explorer, intended to
+help develop support for block explorers in
+[Zebra](https://github.com/ZcashFoundation/zebra).
 
-V3 Onion: http://zcashfgzdzxwiy7yq74uejvo2ykppu4pzgioplcvdnpmc6gcu5k6vwyd.onion/
+## Local Dev Setup
 
-## Setup Guide: 
+### Build and run `zcashd`
 
-To start your Phoenix server:
+``` shell
+sudo pacman --noconfirm -S make git autoconf libtool unzip python automake pkgconf patch wget binutils gcc
+cd
+git clone https://github.com/zcash/zcash.git
+cd zcash
+./zcutil/clean.sh
+./zcutil/build.sh -j$(nproc)
+mkdir -p ~/.zcash
+touch ~/.zcash/zcash.conf
+```
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+Put the following to your `~/.zcash/zcash.conf`:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+```
+rpcport=8232
+rpcbind=127.0.0.1
+rpcuser=nighthawkapps
+rpcpassword=ffwf
+txindex=1
+experimentalfeatures=1
+insightexplorer=1
+testnet=1
+```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Run `./src/zcashd` and wait until it syncs.
+
+### Build and run the explorer
+
+``` shell
+sudo pacman --noconfirm -S make elixir gcc git npm inotify-tools
+cd
+git clone https://github.com/ZcashFoundation/zcash-explorer
+cd zcash-explorer
+mix deps.get
+cd assets
+npm install
+cd ..
+```
+
+Run `iex -S mix phx.server`.
+
+Visit http://localhost:4000.
 
 ## Documentation: 
 
