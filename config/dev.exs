@@ -1,14 +1,5 @@
 use Mix.Config
 
-# Configure your database
-config :zcash_explorer, ZcashExplorer.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "zcash_explorer_dev",
-  hostname: "localhost",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -27,7 +18,7 @@ config :zcash_explorer, ZcashExplorerWeb.Endpoint,
       "development",
       "--watch-stdin",
       cd: Path.expand("../assets", __DIR__),
-      env: [{"NODE_OPTIONS", "--openssl-legacy-provider"}]
+      env: [{"NODE_OPTIONS", ""}]
     ],
     npm: [
       "run",

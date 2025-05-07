@@ -1,0 +1,18 @@
+FROM elixir:1.14.4-alpine AS build
+
+# install build dependencies
+RUN apk add --update --no-cache build-base --update nodejs npm git bash
+
+# prepare build dir
+WORKDIR /app
+
+# install hex + rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
+
+# set build ENV
+ENV MIX_ENV=prod
+
+COPY mix.exs mix.lock ./
+COPY config config
+RUN mix do deps.get
